@@ -43,6 +43,8 @@ Suppose we originate the contract with `60 Mutez` and then set:
 - `seconds_per_tick := 60`
 - `mutez_per_tick := 1`
 
+Then we can have the following scenarios:
+
 - One minute after origination, anyone may trigger the flush of `1 Mutez`.
 - If no one flushes the contract after origination, `10 minutes` later,
   anyone may trigger the flush of _up to_ `10 Mutez`.
