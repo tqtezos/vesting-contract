@@ -1,0 +1,69 @@
+<<: !include "./hpack/module.yaml"
+
+<<: *meta
+name:                lorentz-contract-vesting
+version:             0.1.1.0
+github:              "tqtezos/lorentz-contract-vesting"
+license:             BSD3
+author:              "Michael J. Klein, TQ Tezos"
+maintainer:          "michael.klein@tqtezos.com"
+copyright:           "2020 Michael J. Klein, TQ Tezos"
+
+extra-source-files:
+- README.md
+
+description:         Please see the README on GitHub at <https://github.com/tqtezos/lorentz-contract-vesting#readme>
+
+library:
+  <<: *lorentz-lib-common
+
+  dependencies:
+    - containers
+    - data-default
+    - fmt
+    - morley
+    - lorentz
+    - morley-prelude
+    - morley-ledgers
+    - named
+    - singletons
+    - text
+    - vinyl
+    - cryptonite
+    - bytestring
+    - aeson
+    - constraints
+    - binary
+    - optparse-applicative
+    - transformers
+    - megaparsec
+    - base16-bytestring
+
+executables:
+  lorentz-contract-vesting:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - lorentz-contract-vesting
+    - optparse-applicative
+    - morley
+    - lorentz
+    - named
+    - text
+    - morley-prelude
+    - ansi-wl-pprint
+
+tests:
+  lorentz-contract-vesting-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - lorentz-contract-vesting
