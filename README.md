@@ -3,13 +3,67 @@ See the FA1.2 [Quick Start Tutorial](https://assets.tqtezos.com/token-contracts/
 
 You can find the following example on carthagenet [here](https://better-call.dev/carthagenet/KT1Gkixg9sDd3LE5Rn1RqkiQnAk2xnFVuq7a/operations).
 
+# Introduction
+
+## Contracts
+
+This repo defines two contracts:
+- A compile-time polymorphic vesting contract, which
+  accepts a token transfer method and implements a
+  vesting schedule for it
+- A Tez vesting contract, which allows a single admin, set at origination,
+  to delegate its balance.
+
+The following examples use the Tez vesting contract.
+
+## Specification
+
+A vesting contract holds some tokens and periodically allows
+some of its tokens to be transferred to a fixed address,
+i.e. "_flushed_":
+
+```haskell
+parameter (or (option %setDelegate key_hash)
+              (nat %vest))
+```
+
+We call one period of waiting a `tick`,
+i.e. a fixed number of tokens are added to the allowed number every tick.
+
+The number of tokens that may be transferred over time is specified by a
+"_vesting schedule_", which includes:
+- `timestamp`: when the vesting should begin
+- `nat`: the number of seconds per tick
+- `nat`: the number of mutez that are allowed per tick
+
+## Example
+
+Suppose we originate the contract with `60 Mutez` and then set:
+- `timestamp := now`
+- `seconds_per_tick := 60`
+- `mutez_per_tick := 1`
+
+- One minute after origination, anyone may trigger the flush of `1 Mutez`.
+- If no one flushes the contract after origination, `10 minutes` later,
+  anyone may trigger the flush of _up to_ `10 Mutez`.
+- If the maximum number is flushed `5 minutes` after origination (`5 Mutez`),
+  anyone may flush up to `10 Mutez` `10 minutes` later
+- One hour after origination, the entire balance of the contract may be flushed.
+
+
 ## Setting Up
 ### Requirements
 #### Tezos-client
+
 To set up the tezos-client, follow the instructions in the [Setup Tezos Client](https://assets.tqtezos.com/setup/1-tezos-client) tutorial
 
 ### Installing Dependencies
-`stack build` Note that this will take some time. 
+
+```bash
+stack build
+```
+
+Note that this will take some time.
 
 ## Originating
 
@@ -55,6 +109,9 @@ printInitVestingTezContract (read "tz1R3vJ5TV8Y5pVj8dicBR23Zv8JArusDkYr") (read 
 
 Pair (Pair "tz1R3vJ5TV8Y5pVj8dicBR23Zv8JArusDkYr" "tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm") (Pair 0 (Pair "2020-09-10T18:57:56Z" (Pair 30 1)))
 ```
+
+This will allow `1 Mutez` to be flushed every `30 seconds`, which is the block time for `carthagenet`.
+
 
 ### Originate the contract
 
