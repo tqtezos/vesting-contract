@@ -1,11 +1,11 @@
 parameter (or (option %setDelegate key_hash)
               (nat %vest));
-storage (pair (pair address
-                    address)
-              (pair nat
-                    (pair timestamp
-                          (pair nat
-                                nat))));
+storage (pair (pair %wrapped (address %target)
+                             (address %delegateAdmin))
+              (pair (nat %vested)
+                    (pair %schedule (timestamp %epoch)
+                                    (pair (nat %secondsPerTick)
+                                          (nat %tokensPerTick)))));
 code { DUP;
        CAR;
        DIP { CDR };
@@ -59,8 +59,8 @@ code { DUP;
                        SWAP;
                        DIP { PAIR;
                              SWAP;
-                             DUP } };
-                 DIP { CDR;
+                             DUP };
+                       CDR;
                        CDR };
                  MUL;
                  SWAP;

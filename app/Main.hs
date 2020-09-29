@@ -9,11 +9,10 @@ import Control.Applicative
 import Data.Function
 import System.IO
 import Prelude (die, displayException, catchAny)
-import Data.Functor
 
 import Lorentz
 import Michelson.Typed.Scope
-import Util.IO
+-- import Util.IO
 import Michelson.Printer
 
 import qualified Options.Applicative as Opt
@@ -23,7 +22,7 @@ import Text.PrettyPrint.ANSI.Leijen.Internal (Doc, linebreak)
 -- import qualified Lorentz.Contracts.GenericMultisig.CmdLnArgs as GenericMultisigCmdLnArgs
 
 -- | Convert to a `Value`, untype, and render
-showValue :: (IsoValue t, SingI (ToT t), HasNoOp (ToT t)) => t -> TL.Text
+showValue :: (IsoValue t, HasNoOp (ToT t)) => t -> TL.Text
 showValue = printTypedValue False . toVal
 
 data CmdLnArgs
@@ -67,8 +66,8 @@ usageDoc =
 
 main :: IO ()
 main = do
-  hSetTranslit stdout
-  hSetTranslit stderr
+  -- hSetTranslit stdout
+  -- hSetTranslit stderr
 
   cmdLnArgs <- Opt.execParser programInfo
   run cmdLnArgs `catchAny` (die . displayException)

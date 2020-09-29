@@ -38,6 +38,7 @@ library:
     - transformers
     - megaparsec
     - base16-bytestring
+    - with-utf8
 
 executables:
   lorentz-contract-vesting:
@@ -67,3 +68,17 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - lorentz-contract-vesting
+    - morley
+    - morley-prelude
+    - morley-ledgers-test
+    - lorentz
+    - cleveland
+    - tasty
+    - tasty-hspec
+    - tasty-quickcheck
+    - QuickCheck
+    - hspec
+    - containers
+    - mtl
+    - fmt
+

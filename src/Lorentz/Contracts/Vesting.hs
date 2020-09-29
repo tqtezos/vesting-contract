@@ -20,11 +20,11 @@ import System.IO
 import Text.Show
 
 import Lorentz
+import Lorentz.Entrypoints ()
 import Tezos.Core
-import Util.IO
 
 import qualified Data.Text.Lazy.IO as TL
-
+import qualified Data.Text.Lazy.IO.Utf8 as Utf8
 
 type TokensPerTick = Natural
 type SecondsPerTick = Natural
@@ -170,9 +170,6 @@ data TezParameter
   deriving stock Show
   deriving anyclass IsoValue
 
-instance ParameterHasEntryPoints TezParameter  where
-  type ParameterEntryPointsDerivation TezParameter = EpdPlain
-
 data TezStorage = TezStorage
   { target :: Address
   , delegateAdmin :: Address
@@ -224,6 +221,14 @@ vestingTezContract = do
                cons
     )
 
+
+instance HasAnnotation VestingSchedule where
+instance HasAnnotation TezStorage where
+instance HasAnnotation (Storage TezStorage) where
+
+instance ParameterHasEntrypoints TezParameter where
+  type ParameterEntrypointsDerivation TezParameter = EpdPlain
+
 -- | Print `permitAdmin42Contract`
 --
 -- @
@@ -231,7 +236,7 @@ vestingTezContract = do
 -- @
 printVestingTezContract :: Maybe FilePath -> Bool -> IO ()
 printVestingTezContract mOutput forceOneLine' =
-  maybe TL.putStrLn writeFileUtf8 mOutput $
+  maybe TL.putStrLn Utf8.writeFile mOutput $
   printLorentzContract forceOneLine' $
     (defaultContract vestingTezContract)
       { cDisableInitialCast = True }

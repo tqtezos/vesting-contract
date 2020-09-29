@@ -106,7 +106,7 @@ instance Ord Secp256k1.PublicKey where
 instance Ord P256.PublicKey where
   compare x y = show x `compare` (show y :: String)
 
-deriving instance Ord PublicKey
+deriving stock instance Ord PublicKey
 
 
 -- instance ToJSON Ed25519.PublicKey where
