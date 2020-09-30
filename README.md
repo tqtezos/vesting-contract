@@ -117,6 +117,8 @@ This will allow `1 Mutez` to be flushed every `30 seconds`, which is the block t
 
 ### Originate the contract
 
+[ooa1EPyaoe6Gm8WEzfuRJSqH6VkhWxwPP3HyfH98GZQS5Ej8QpQ](https://better-call.dev/carthagenet/opg/ooa1EPyaoe6Gm8WEzfuRJSqH6VkhWxwPP3HyfH98GZQS5Ej8QpQ/contents)
+
 ```bash
 $ tezos-client --wait none originate contract VestingTez \
   transferring 0 from $BOB_ADDRESS running \
@@ -231,10 +233,13 @@ Contract memorized as VestingTez.
 
 To actually use it for vesting, we'll need to transfer some tez to the contract:
 
-❯❯❯ tezos-client --wait none originate contract VestingTez \
+[onyohn6fJBhqjgjp85iZbMiJFA9HttDxN2YWCcGqHFbtNuRDg8K](https://better-call.dev/carthagenet/opg/onyohn6fJBhqjgjp85iZbMiJFA9HttDxN2YWCcGqHFbtNuRDg8K/contents)
+
+```bash
+$ tezos-client --wait none originate contract VestingTez \
   transferring 10000 from $BOB_ADDRESS running \
   "$(cat contracts/vesting_tez.tz | tr -d '\n')" \
-  --init 'Pair (Pair "tz1R3vJ5TV8Y5pVj8dicBR23Zv8JArusDkYr" "tz1bDCu64RmcpWahdn9bWrDMi6cu7mXZynHm") (Pair 0 (Pair "2020-09-10T18:57:56Z" (Pair 30 1)))' \
+  --init 'Pair (Pair \"$ALICE_ADDRESS\" \"$BOB_ADDRESS\") (Pair 0 (Pair "2020-09-10T18:57:56Z" (Pair 30 1)))' \
   --burn-cap 0.753
 
 Waiting for the node to be bootstrapped before injection...
@@ -294,7 +299,7 @@ To vest some tez, submit the number of ticks to the `vest` entrypoint.
 Submitting too many ticks will error:
 
 ```bash
-❯❯❯ tezos-client --wait none transfer 0 from $BOB_ADDRESS to $VESTING_TEZ \
+$ tezos-client --wait none transfer 0 from $BOB_ADDRESS to $VESTING_TEZ \
   --entrypoint vest --arg 100
 
 Waiting for the node to be bootstrapped before injection...
@@ -387,8 +392,10 @@ Fatal error:
 
 But it will succeed for a valid number of ticks:
 
+[onyohn6fJBhqjgjp85iZbMiJFA9HttDxN2YWCcGqHFbtNuRDg8K](https://better-call.dev/carthagenet/opg/onyohn6fJBhqjgjp85iZbMiJFA9HttDxN2YWCcGqHFbtNuRDg8K/contents)
+
 ```bash
-❯❯❯ tezos-client --wait none transfer 0 from $BOB_ADDRESS to $VESTING_TEZ \
+$ tezos-client --wait none transfer 0 from $BOB_ADDRESS to $VESTING_TEZ \
   --entrypoint vest --arg 3
 
 Waiting for the node to be bootstrapped before injection...
